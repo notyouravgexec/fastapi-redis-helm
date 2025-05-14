@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1       # 👈 This is the API version for Argo CD Applications
+kind: Application                      # 👈 We're creating an Argo CD Application resource
+
+metadata:
+  name: fastapi-redis                  # 👈 The name you'll see in the Argo CD dashboard
+  namespace: argocd                    # 👈 This tells Kubernetes to place the object in the `argocd` namespace
+
+spec:
+  project: default                     # 👈 You’re assigning this to Argo CD’s default project
+
+  source:
+    repoURL: https://github.com/notyouravgexec/fastapi-redis-helm.git  # 👈 The Git repo where your Helm chart lives
+    targetRevision: HEAD              # 👈 Use the latest commit from the default branch (usually `main`)
+    path: .                           # 👈 The chart lives in the root of the repo
+    helm:
+      valueFiles:
+        - values.yaml                 # 👈 Tell Helm to use `values.yaml` when rendering the chart
+
+  destination:
+    server: https://kubernetes.default.svc  # 👈 Tells Argo CD to deploy to the current cluster it's running in
+    namespace: default                       # 👈 Tells Argo CD to install the app into the `default` namespace
+
+  syncPolicy:
+    automated:                      # 👈 Enable automatic syncing
+      prune: true                   # 👈 If a resource is deleted in Git, remove it from the cluster
+      selfHeal: true                # 👈 If someone manually changes something, revert it to match Git
