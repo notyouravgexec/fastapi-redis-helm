@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/notyouravgexec/fastapi-redis-helm.git  # 👈 The Git repo where your Helm chart lives
     targetRevision: HEAD              # 👈 Use the latest commit from the default branch (usually `main`)
-    path: .                           # 👈 The chart lives in the root of the repo
+    path: fastapi-redis                           # 👈 The chart lives in the root of the repo
     helm:
       valueFiles:
         - values.yaml                 # 👈 Tell Helm to use `values.yaml` when rendering the chart

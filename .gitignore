@@ -1,0 +1,3 @@
+k8s/
+*.log
+__pycache__/
